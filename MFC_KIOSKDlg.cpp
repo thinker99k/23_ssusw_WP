@@ -2359,25 +2359,25 @@ int CMFCKIOSKDlg::showOrderList() // 주문 리스트 화면에 표시
 		m_textOrderSum1.SetWindowTextA(mSum[0]);
 	}
 	if (!isInitial(m_OrderList[1])) { // 구조체에 내용이 있을 경우
-		mSum[1].Format(_T("%d"), m_OrderList[1].mQty * getPrice(m_OrderList[0].mName));
+		mSum[1].Format(_T("%d"), m_OrderList[1].mQty * getPrice(m_OrderList[1].mName));
 		m_textOrderSum2.SetWindowTextA(mSum[1]);
 	}if (!isInitial(m_OrderList[2])) { // 구조체에 내용이 있을 경우
-		mSum[2].Format(_T("%d"), m_OrderList[2].mQty * getPrice(m_OrderList[0].mName));
+		mSum[2].Format(_T("%d"), m_OrderList[2].mQty * getPrice(m_OrderList[2].mName));
 		m_textOrderSum3.SetWindowTextA(mSum[2]);
 	}if (!isInitial(m_OrderList[3])) { // 구조체에 내용이 있을 경우
-		mSum[3].Format(_T("%d"), m_OrderList[3].mQty * getPrice(m_OrderList[0].mName));
+		mSum[3].Format(_T("%d"), m_OrderList[3].mQty * getPrice(m_OrderList[3].mName));
 		m_textOrderSum4.SetWindowTextA(mSum[3]);
 	}if (!isInitial(m_OrderList[4])) { // 구조체에 내용이 있을 경우
-		mSum[4].Format(_T("%d"), m_OrderList[4].mQty * getPrice(m_OrderList[0].mName));
+		mSum[4].Format(_T("%d"), m_OrderList[4].mQty * getPrice(m_OrderList[4].mName));
 		m_textOrderSum5.SetWindowTextA(mSum[4]);
 	}if (!isInitial(m_OrderList[5])) { // 구조체에 내용이 있을 경우
-		mSum[5].Format(_T("%d"), m_OrderList[5].mQty * getPrice(m_OrderList[0].mName));
+		mSum[5].Format(_T("%d"), m_OrderList[5].mQty * getPrice(m_OrderList[5].mName));
 		m_textOrderSum6.SetWindowTextA(mSum[5]);
 	}if (!isInitial(m_OrderList[6])) { // 구조체에 내용이 있을 경우
-		mSum[6].Format(_T("%d"), m_OrderList[6].mQty * getPrice(m_OrderList[0].mName));
+		mSum[6].Format(_T("%d"), m_OrderList[6].mQty * getPrice(m_OrderList[6].mName));
 		m_textOrderSum7.SetWindowTextA(mSum[6]);
 	}if (!isInitial(m_OrderList[7])) { // 구조체에 내용이 있을 경우
-		mSum[7].Format(_T("%d"), m_OrderList[7].mQty * getPrice(m_OrderList[0].mName));
+		mSum[7].Format(_T("%d"), m_OrderList[7].mQty * getPrice(m_OrderList[7].mName));
 		m_textOrderSum8.SetWindowTextA(mSum[7]);
 	}
 
