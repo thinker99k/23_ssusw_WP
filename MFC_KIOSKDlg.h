@@ -9,7 +9,10 @@
 #include <afxdb.h>
 #include <odbcinst.h>
 #include <sqlext.h>
-
+#include <map>
+#include <string>
+using namespace std;
+//
 // CMFCKIOSKDlg 대화 상자
 class CMFCKIOSKDlg : public CDialogEx
 {
@@ -236,6 +239,45 @@ public:
 	초코칩쿠키,
 	약과,
 	};
+	
+	//////////////////////////////////////////////////////////////////////////////////
+							//앱 내부 재고 정보를 저장하는 map
+	//////////////////////////////////////////////////////////////////////////////////
+	std::map<string, int> Stock = { 
+	{"아메리카노_아이스", 10},
+	{"아메리카노_핫", 10},
+	{"카페라떼_아이스", 10},
+	{"카페라떼_핫", 10},
+	{"카라멜마끼아또_아이스", 10},
+	{"카라멜마끼아또_핫", 10},
+	{"콜드브루", 10},
+	{"바닐라라떼_아이스", 10},
+	{"바닐라라떼_핫", 10},
+	{"에스프레소", 10},
+	{"카페모카", 10},
+	{"녹차프라페", 10},
+	{"쿠키프라페", 10},
+	{"민트프라페", 10},
+	{"요거트스무디", 10},
+	{"유니콘프라페", 10},
+	{"유자차", 10},
+	{"페퍼민트", 10},
+	{"캐모마일", 10},
+	{"얼그레이", 10},
+	{"녹차", 10},
+	{"사과유자차", 10},
+	{"아이스크림크로플", 10},
+	{"크루아상", 10},
+	{"마들렌", 10},
+	{"스콘", 10},
+	{"마카롱", 10},
+	{"샌드위치", 10},
+	{"아이스크림슈", 10},
+	{"롤케익", 10},
+	{"초코칩쿠키", 10},
+	{"약과", 10}
+	};
+	//////////////////////////////////////////////////////////////////////////////////
 
 
 	bool isInitial(struct OrderList);
@@ -279,4 +321,22 @@ public:
 	CStatic m_ALLSUM;
 	int sumPrice;
 	bool m_isBreadDown = false;
+	
+
+	CImage image;
+	void changeSoldout_Img(int);
+	
+	
+	void showSoldOut();
+	void showSoldOut_Image(string mNameStr);
+	string convertNameString(string str);
+	void addStock(std::map<std::string, int>& inventory, const std::string& itemName, int quantity); // 재고에 quantity만큼 추가
+	void minStock(map<string, int>& Stock, const string& itemName, int quantity); // 재고에 quantity만큼 제거
+
+	bool isSoldOut(map<string, int>& Stock, const string& itemName); // itemName의 재고가 0개인지 확인하는 함수
+
+
+	void refreshAll_Images();
+
+	bool m_Flag_SOLDOUT;
 };
