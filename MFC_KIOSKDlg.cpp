@@ -239,7 +239,7 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	
-	//initdb();
+	initdb();
 	
 	// 시스템 메뉴에 "정보..." 메뉴 항목을 추가합니다.
 
