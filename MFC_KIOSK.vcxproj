@@ -222,6 +222,7 @@
     <Image Include="res\bitmap1.bmp" />
     <Image Include="res\bitmap2.bmp" />
     <Image Include="res\bitmap4.bmp" />
+    <Image Include="res\bitmap5.bmp" />
     <Image Include="res\B_bitmap1.bmp" />
     <Image Include="res\B_bitmap10.bmp" />
     <Image Include="res\B_bitmap2.bmp" />
@@ -255,6 +256,7 @@
     <Image Include="res\MFC_KIOSK.ico" />
     <Image Include="res\naverpay.bmp" />
     <Image Include="res\payco.bmp" />
+    <Image Include="res\soldOUT.bmp" />
     <Image Include="res\T_bitmap1.bmp" />
     <Image Include="res\T_bitmap2.bmp" />
     <Image Include="res\T_bitmap3.bmp" />
@@ -263,6 +265,7 @@
     <Image Include="res\T_bitmap6.bmp" />
     <Image Include="res\UP.bmp" />
     <Image Include="res\windows_project_mockup_1 (Community) (Copy)-1.bmp" />
+    <Image Include="res\x-1727490_960_720.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\loading.gif" />

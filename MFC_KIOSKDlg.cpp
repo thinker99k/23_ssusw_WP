@@ -239,7 +239,7 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	
-	initdb();
+	//initdb();
 	
 	// 시스템 메뉴에 "정보..." 메뉴 항목을 추가합니다.
 
@@ -444,6 +444,9 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 	//매장, 포장 버튼 투명화
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_HERE)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_TOGO)->GetSafeHwnd(), _T(""), _T(""));*/
+
+
+
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -856,6 +859,8 @@ void CMFCKIOSKDlg::OnClickedButtonCoffee()
 	m_buttonCoffee = true;
 	ClickedCoffeeUp();
 	m_buttonCraft = m_buttonTea = m_buttonBread = false;
+
+	showSoldOut();
 }
 
 
@@ -865,6 +870,9 @@ void CMFCKIOSKDlg::OnClickedButtonCraft()
 	m_buttonCraft = true;
 	ClickedCraftUp();
 	m_buttonCoffee = m_buttonTea = m_buttonBread = false;
+
+	showSoldOut();
+
 }
 
 
@@ -874,6 +882,9 @@ void CMFCKIOSKDlg::OnClickedButtonTea()
 	m_buttonTea = true;
 	ClickedTeaUp();
 	m_buttonCoffee = m_buttonCraft = m_buttonBread  = false;
+
+	showSoldOut();
+
 }
 
 
@@ -883,6 +894,9 @@ void CMFCKIOSKDlg::OnClickedButtonBread()
 	m_buttonBread = true;
 	ClickedBreadUp();
 	m_buttonCoffee = m_buttonCraft = m_buttonTea = false;
+
+	showSoldOut();
+
 }
 
 
@@ -893,24 +907,32 @@ void CMFCKIOSKDlg::OnClickedButtonUp()
 		//위 버튼 눌렀을 때(coffee)
 		ClickedCoffeeUp();
 		m_buttonCoffeeDown = false;
+		showSoldOut();
+
 	}
 	else if (m_buttonCraft)
 	{
 		//위 버튼 눌렀을 때(craft)
 		ClickedCraftUp();
 		m_buttonCraftDown = false;
+		showSoldOut();
+
 	}
 	else if (m_buttonTea)
 	{
 		//위 버튼 눌렀을 때(tea)
 		ClickedTeaUp();
 		m_buttonTeaDown = false;
+		showSoldOut();
+
 	}
 	else if (m_buttonBread)
 	{
 		//위 버튼 눌렀을 때(bread)
 		ClickedBreadUp();
 		m_buttonBreadDown = false;
+		showSoldOut();
+
 	}
 }
 
@@ -922,24 +944,32 @@ void CMFCKIOSKDlg::OnClickedButtonDown()
 		//아래 버튼 눌렀을 때(coffee)
 		ClickedCoffeeDown();
 		m_buttonCoffeeDown = true;
+		showSoldOut();
+
 	}
 	else if (m_buttonCraft)
 	{
 		//아래 버튼 눌렀을 때(craft)
 		ClickedCraftDown();
 		m_buttonCraftDown = true;
+		showSoldOut();
+
 	}
 	else if (m_buttonTea)
 	{
 		//아래 버튼 눌렀을 때(tea)
 		ClickedTeaDown();
 		m_buttonTeaDown = true;
+		showSoldOut();
+
 	}
 	else if (m_buttonBread)
 	{
 		//아래 버튼 눌렀을 때(bread)
 		ClickedBreadDown();
 		m_buttonBreadDown = true;
+		showSoldOut();
+
 	}
 }
 
@@ -1040,6 +1070,8 @@ void CMFCKIOSKDlg::ClickedCoffeeUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_C9));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCraft = m_buttonTea = m_buttonBread = false;
+
+	showSoldOut();
 }
 
 
@@ -1096,6 +1128,9 @@ void CMFCKIOSKDlg::ClickedCoffeeDown()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCraft = m_buttonTea = m_buttonBread = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1171,6 +1206,9 @@ void CMFCKIOSKDlg::ClickedCraftUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonTea = m_buttonBread = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1180,6 +1218,9 @@ void CMFCKIOSKDlg::ClickedCraftDown()
 	//DOWN화면
 	m_buttonCraft = true;
 	m_buttonCoffee = m_buttonTea = m_buttonBread = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1261,6 +1302,9 @@ void CMFCKIOSKDlg::ClickedTeaUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonCraft = m_buttonBread = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1270,6 +1314,9 @@ void CMFCKIOSKDlg::ClickedTeaDown()
 	//DOWN화면
 	m_buttonTea = true;
 	m_buttonCoffee = m_buttonCraft = m_buttonBread = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1368,6 +1415,9 @@ void CMFCKIOSKDlg::ClickedBreadUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_B9));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonCraft = m_buttonTea = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1417,6 +1467,9 @@ void CMFCKIOSKDlg::ClickedBreadDown()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonCraft = m_buttonTea = false;
+
+	showSoldOut();
+
 }
 
 
@@ -1428,36 +1481,52 @@ void CMFCKIOSKDlg::OnClickedButtonKorean()
 	if (m_buttonCoffee) {
 		if (m_buttonCoffeeDown) {
 			ClickedCoffeeDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedCoffeeUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonCraft) {
 		if (m_buttonCraftDown) {
 			ClickedCraftDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedCraftUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonTea) {
 		if (m_buttonTeaDown) {
 			ClickedTeaDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedTeaUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonBread) {
 		if (m_buttonBreadDown) {
 			ClickedBreadDown();
+			showSoldOut();
+
 		}
 		else {
 			ClickedBreadUp();
+			showSoldOut();
+
 		}
 	}
 }
@@ -1471,6 +1540,8 @@ void CMFCKIOSKDlg::OnClickedButtonEnglish()
 	if (m_buttonCoffee) {
 		if (m_buttonCoffeeDown) {
 			ClickedCoffeeDown();
+			showSoldOut();
+
 		}
 		else
 		{
@@ -1480,27 +1551,39 @@ void CMFCKIOSKDlg::OnClickedButtonEnglish()
 	else if (m_buttonCraft) {
 		if (m_buttonCraftDown) {
 			ClickedCraftDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedCraftUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonTea) {
 		if (m_buttonTeaDown) {
 			ClickedTeaDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedTeaUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonBread) {
 		if (m_buttonBreadDown) {
 			ClickedBreadDown();
+			showSoldOut();
+
 		}
 		else {
 			ClickedBreadUp();
+			showSoldOut();
+
 		}
 	}
 }
@@ -1514,36 +1597,52 @@ void CMFCKIOSKDlg::OnClickedButtonChinese()
 	if (m_buttonCoffee) {
 		if (m_buttonCoffeeDown) {
 			ClickedCoffeeDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedCoffeeUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonCraft) {
 		if (m_buttonCraftDown) {
 			ClickedCraftDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedCraftUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonTea) {
 		if (m_buttonTeaDown) {
 			ClickedTeaDown();
+			showSoldOut();
+
 		}
 		else
 		{
 			ClickedTeaUp();
+			showSoldOut();
+
 		}
 	}
 	else if (m_buttonBread) {
 		if (m_buttonBreadDown) {
 			ClickedBreadDown();
+			showSoldOut();
+
 		}
 		else {
 			ClickedBreadUp();
+			showSoldOut();
+
 		}
 	}
 }
@@ -1725,7 +1824,6 @@ void CMFCKIOSKDlg::OnLButtonDown(UINT nFlags, CPoint point)
 			if (myRect.PtInRect(point))
 			{
 				// 1번 매뉴를 클릭했을 때
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				//m_orderlist_1.SetWindowText(_T("아메리카노 (ice)"));  // 테스트
 				Add_List(1);
 				
@@ -1733,52 +1831,44 @@ void CMFCKIOSKDlg::OnLButtonDown(UINT nFlags, CPoint point)
 			if (myRect2.PtInRect(point))
 			{
 				// 2번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(2);
 
 			}
 			if (myRect3.PtInRect(point))
 			{
 				// 3번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(3);
 
 			}
 			if (myRect4.PtInRect(point))
 			{
 				// 4번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(4);
 
 			}if (myRect5.PtInRect(point))
 			{
 				// 5번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(5);
 
 			}if (myRect6.PtInRect(point))
 			{
 				// 6번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(6);
 
 			}if (myRect7.PtInRect(point))
 			{
 				// 7번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(7);
 
 			}if (myRect8.PtInRect(point))
 			{
 				// 8번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(8);
 
 			}
 			if (myRect9.PtInRect(point))
 			{
 				// 9번 매뉴를 클릭했을 때 
-				AfxMessageBox(_T("클릭 확인!!!!!!!!!!!."));
 				Add_List(9);
 
 			}
@@ -1818,288 +1908,229 @@ void CMFCKIOSKDlg::Add_List(int MENUPOS)
 	//bool m_buttonCraft;
 	//*/
 
-	if (m_buttonCoffee && ! m_buttonCoffeeDown) { // 커피의 경우
+	if (m_buttonCoffee && !m_buttonCoffeeDown) { // 커피의 경우
 		switch (MENUPOS) {
 		case 1:
-			if (InsertOrder(아메리카노_아이스)) {
+			if (InsertOrder(아메리카노_아이스))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 2:
-			if (InsertOrder(아메리카노_핫)) {
+			if (InsertOrder(아메리카노_핫))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 3:
-			if (InsertOrder(카페라떼_아이스)) {
+			if (InsertOrder(카페라떼_아이스))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 4:
-			if (InsertOrder(카페라떼_핫)) {
+			if (InsertOrder(카페라떼_핫))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 5:
-			if (InsertOrder(카라멜마끼아또_아이스)) {
+			if (InsertOrder(카라멜마끼아또_아이스))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 6:
-			if (InsertOrder(카라멜마끼아또_핫)) {
+			if (InsertOrder(카라멜마끼아또_핫))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 7:
-			if (InsertOrder(콜드브루)) {
+			if (InsertOrder(콜드브루))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 8:
-			if (InsertOrder(바닐라라떼_아이스)) {
+			if (InsertOrder(바닐라라떼_아이스))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 9:
-			if (InsertOrder(바닐라라떼_핫)) {
+			if (InsertOrder(바닐라라떼_핫))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
-
 		}
 	}
 	else if (m_buttonCoffeeDown) {
 		switch (MENUPOS) {
 		case 1:
-			if (InsertOrder(에스프레소)) {
+			if (InsertOrder(에스프레소))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 2:
-			if (InsertOrder(카페모카)) {
+			if (InsertOrder(카페모카))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		}
 	}
 	else if (m_buttonTea) { // 차의 경우
 		switch (MENUPOS) {
 		case 1:
-			if (InsertOrder(유자차)) {
+			if (InsertOrder(유자차))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 2:
-			if (InsertOrder(페퍼민트)) {
+			if (InsertOrder(페퍼민트))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 3:
-			if (InsertOrder(캐모마일)) {
+			if (InsertOrder(캐모마일))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 4:
-			if (InsertOrder(얼그레이)) {
+			if (InsertOrder(얼그레이))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 5:
-			if (InsertOrder(녹차)) {
+			if (InsertOrder(녹차))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 6:
-			if (InsertOrder(사과유자차)) {
+			if (InsertOrder(사과유자차))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		}
 	}
 	else if (m_buttonCraft) { // 제조음료의 경우
 		switch (MENUPOS) {
 		case 1:
-			if (InsertOrder(녹차프라페)) {
+			if (InsertOrder(녹차프라페))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 2:
-			if (InsertOrder(쿠키프라페)) {
+			if (InsertOrder(쿠키프라페))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 3:
-			if (InsertOrder(민트프라페)) {
+			if (InsertOrder(민트프라페))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 4:
-			if (InsertOrder(요거트스무디)) {
+			if (InsertOrder(요거트스무디))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 5:
-			if (InsertOrder(유니콘프라페 )) {
+			if (InsertOrder(유니콘프라페))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 6:
-			if (InsertOrder(유니콘프라페)) {
+			if (InsertOrder(유니콘프라페))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		}
-		}
-	else if (m_buttonBread && ! m_buttonBreadDown) { // 제과류의 경우
+	}
+	else if (m_buttonBread && !m_buttonBreadDown) { // 제과류의 경우
 		switch (MENUPOS) {
 		case 1:
-			if (InsertOrder(아이스크림크로플)) {
+			if (InsertOrder(아이스크림크로플))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 2:
-			if (InsertOrder(크루아상)) {
+			if (InsertOrder(크루아상))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 3:
-			if (InsertOrder(마들렌)) {
+			if (InsertOrder(마들렌))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 4:
-			if (InsertOrder(스콘)) {
+			if (InsertOrder(스콘))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 5:
-			if (InsertOrder(마카롱)) {
+			if (InsertOrder(마카롱))
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
-			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 6:
 			if (InsertOrder(샌드위치)) {
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
 			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 7:
 			if (InsertOrder(아이스크림슈)) {
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
 			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
 			break;
 		case 8:
 			if (InsertOrder(롤케익)) {
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
 			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				
 			break;
 		case 9:
 			if (InsertOrder(초코칩쿠키)) {
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
 			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+
 			break;
 		case 10:
 			if (InsertOrder(약과)) {
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
 			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+
 			break;
 		}
 	
@@ -2109,10 +2140,10 @@ void CMFCKIOSKDlg::Add_List(int MENUPOS)
 		case 1:
 			if (InsertOrder(약과)) {
 				showOrderList();
-				MessageBox(_T("주문 성공!"));
 			}
 			else
-				MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+				if (m_Flag_SOLDOUT) m_Flag_SOLDOUT = true; else MessageBox(_T("주문 리스트가 꽉 찼습니다!"));
+
 			break;
 
 		}
@@ -2126,11 +2157,22 @@ int CMFCKIOSKDlg::InsertOrder(int p_Order) {
 	//	int mQty; // 수량 
 	//	int mSum; // 가격 총합
 	
+	//현재 품절 상태인지 확인
+	if (isSoldOut(Stock, getName(p_Order))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
+
+		return FALSE; // 주문 실 패 
+	}
+
 	//주문 리스트에 중복이 있는지 확인
 	for (int i = 0; i < 8; i++) {
 		if (m_OrderList[i].mName == p_Order) {
 			m_OrderList[i].mQty++; // 리스트 안에 같은 매뉴가 있으면 수량 + 1
 			m_OrderList[i].mSum = getPrice(p_Order) * m_OrderList[i].mQty; // 가격 총합 계산
+
+			minStock(Stock, getName(p_Order), 1); //주문정보 재고에 반영
+			showSoldOut();
 			return TRUE;
 		}
 	}
@@ -2141,6 +2183,9 @@ int CMFCKIOSKDlg::InsertOrder(int p_Order) {
 			m_OrderList[i].mName = p_Order; //매뉴 이름 설정
 			m_OrderList[i].mQty++; // 수량 +1
 			m_OrderList[i].mSum = getPrice(p_Order) * m_OrderList[i].mQty; // 가격 총합 계산
+
+			minStock(Stock, getName(p_Order), 1); //주문정보 재고에 반영
+
 			return TRUE; //주문 성공
 		}
 	}
@@ -2239,6 +2284,8 @@ int CMFCKIOSKDlg::deleteOrder(int listPosition) //몇 번째 리스트인지
 					2) 구조체 순서 정렬하기
 		""""""""""""""""""""""""""""""""""""""""*/
 	//"			1) listPosition 번째 구조체 초기화
+	addStock(Stock, getName(m_OrderList[listPosition - 1].mName), m_OrderList[listPosition - 1].mQty); // 주문 리스트에 있던 수량 만큼 재고에 +
+
 	initOrder_one(listPosition);
 
 	//"			2) 구조체 순서 정렬하기
@@ -2247,6 +2294,7 @@ int CMFCKIOSKDlg::deleteOrder(int listPosition) //몇 번째 리스트인지
 		if (isInitial(m_OrderList[i - 1])) {
 			m_OrderList[i - 1] = m_OrderList[i];
 			initOrder_one(i + 1);
+
 		}
 		
 	}
@@ -2255,6 +2303,8 @@ int CMFCKIOSKDlg::deleteOrder(int listPosition) //몇 번째 리스트인지
 
 	showOrderList();
 	
+	refreshAll_Images(); //매뉴 이미지 전체 새로고침
+	showSoldOut(); // 품절 상품에 SOLDOUTT 이미지 표시 
 	return 0;
 }
 
@@ -2359,25 +2409,25 @@ int CMFCKIOSKDlg::showOrderList() // 주문 리스트 화면에 표시
 		m_textOrderSum1.SetWindowTextA(mSum[0]);
 	}
 	if (!isInitial(m_OrderList[1])) { // 구조체에 내용이 있을 경우
-		mSum[1].Format(_T("%d"), m_OrderList[1].mQty * getPrice(m_OrderList[0].mName));
+		mSum[1].Format(_T("%d"), m_OrderList[1].mQty * getPrice(m_OrderList[1].mName));
 		m_textOrderSum2.SetWindowTextA(mSum[1]);
 	}if (!isInitial(m_OrderList[2])) { // 구조체에 내용이 있을 경우
-		mSum[2].Format(_T("%d"), m_OrderList[2].mQty * getPrice(m_OrderList[0].mName));
+		mSum[2].Format(_T("%d"), m_OrderList[2].mQty * getPrice(m_OrderList[2].mName));
 		m_textOrderSum3.SetWindowTextA(mSum[2]);
 	}if (!isInitial(m_OrderList[3])) { // 구조체에 내용이 있을 경우
-		mSum[3].Format(_T("%d"), m_OrderList[3].mQty * getPrice(m_OrderList[0].mName));
+		mSum[3].Format(_T("%d"), m_OrderList[3].mQty * getPrice(m_OrderList[3].mName));
 		m_textOrderSum4.SetWindowTextA(mSum[3]);
 	}if (!isInitial(m_OrderList[4])) { // 구조체에 내용이 있을 경우
-		mSum[4].Format(_T("%d"), m_OrderList[4].mQty * getPrice(m_OrderList[0].mName));
+		mSum[4].Format(_T("%d"), m_OrderList[4].mQty * getPrice(m_OrderList[4].mName));
 		m_textOrderSum5.SetWindowTextA(mSum[4]);
 	}if (!isInitial(m_OrderList[5])) { // 구조체에 내용이 있을 경우
-		mSum[5].Format(_T("%d"), m_OrderList[5].mQty * getPrice(m_OrderList[0].mName));
+		mSum[5].Format(_T("%d"), m_OrderList[5].mQty * getPrice(m_OrderList[5].mName));
 		m_textOrderSum6.SetWindowTextA(mSum[5]);
 	}if (!isInitial(m_OrderList[6])) { // 구조체에 내용이 있을 경우
-		mSum[6].Format(_T("%d"), m_OrderList[6].mQty * getPrice(m_OrderList[0].mName));
+		mSum[6].Format(_T("%d"), m_OrderList[6].mQty * getPrice(m_OrderList[6].mName));
 		m_textOrderSum7.SetWindowTextA(mSum[6]);
 	}if (!isInitial(m_OrderList[7])) { // 구조체에 내용이 있을 경우
-		mSum[7].Format(_T("%d"), m_OrderList[7].mQty * getPrice(m_OrderList[0].mName));
+		mSum[7].Format(_T("%d"), m_OrderList[7].mQty * getPrice(m_OrderList[7].mName));
 		m_textOrderSum8.SetWindowTextA(mSum[7]);
 	}
 
@@ -2570,135 +2620,232 @@ void CMFCKIOSKDlg::setTextInit(int nID)
 
 void CMFCKIOSKDlg::OnStnClickedTextOrder2Sum()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedTextOrder8Sum()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf1()
 {
+	if (m_OrderList[0].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
 	minOrder(1);
+	addStock(Stock, getName(m_OrderList[0].mName), 1);
+	refreshAll_Images();
+
+	showSoldOut();
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf2()
 {
+	if (m_OrderList[1].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
+
 	minOrder(2);
+	addStock(Stock, getName(m_OrderList[1].mName), 1);
+	refreshAll_Images();
+
+	showSoldOut();
 
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf3()
 {
+	if (m_OrderList[2].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
+
 	minOrder(3);
+	addStock(Stock, getName(m_OrderList[2].mName), 1);
+	refreshAll_Images();
+
+	showSoldOut();
 
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf4()
 {
-	minOrder(4);
+	if (m_OrderList[3].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	minOrder(4);
+	addStock(Stock, getName(m_OrderList[3].mName), 1);
+	refreshAll_Images();
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf5()
 {
-	minOrder(5);
+	if (m_OrderList[4].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	minOrder(5);
+	addStock(Stock, getName(m_OrderList[4].mName), 1);
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf6()
 {
-	minOrder(6);
+	if (m_OrderList[5].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	minOrder(6);
+	addStock(Stock, getName(m_OrderList[5].mName), 1);
+	refreshAll_Images();
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf7()
 {
-	minOrder(7);
+	if (m_OrderList[6].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	minOrder(7);
+	addStock(Stock, getName(m_OrderList[6].mName), 1);
+	refreshAll_Images();
+	showSoldOut();
+
+	
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedletf8()
 {
-	minOrder(8);
+	if (m_OrderList[7].mQty == 1)
+		return; // 주문 리스트의 수량이 1일 경우 수량 마이너스 버튼은 동작하지 않음
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	minOrder(8);
+	addStock(Stock, getName(m_OrderList[7].mName), 1);
+	refreshAll_Images();
+	showSoldOut();
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright1()
 {
+	if (isSoldOut(Stock, getName(m_OrderList[0].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
+		return; // 주문 실 패 
+	}
 	addOrder(1);
+	minStock(Stock, getName(m_OrderList[0].mName), 1);
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright2()
 {
-	addOrder(2);
+	if (isSoldOut(Stock, getName(m_OrderList[1].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(2);
+	minStock(Stock, getName(m_OrderList[1].mName), 1);
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright3()
 {
-	addOrder(3);
+	if (isSoldOut(Stock, getName(m_OrderList[2].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(3);
+	minStock(Stock, getName(m_OrderList[2].mName), 1);
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright4()
 {
-	addOrder(4);
+	if (isSoldOut(Stock, getName(m_OrderList[3].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(4);
+	minStock(Stock, getName(m_OrderList[3].mName), 1);
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright5()
 {
-	addOrder(5);
+	if (isSoldOut(Stock, getName(m_OrderList[4].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(5);
+	minStock(Stock, getName(m_OrderList[4].mName), 1);
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright6()
 {
-	addOrder(6);
+	if (isSoldOut(Stock, getName(m_OrderList[5].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(6);
+	minStock(Stock, getName(m_OrderList[5].mName), 1);
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright7()
 {
-	addOrder(7);
+	if (isSoldOut(Stock, getName(m_OrderList[6].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(7);
+	minStock(Stock, getName(m_OrderList[6].mName), 1);
+	showSoldOut();
+
 }
 
 
 void CMFCKIOSKDlg::OnStnClickedright8()
 {
-	addOrder(8);
+	if (isSoldOut(Stock, getName(m_OrderList[7].mName))) { //품절일 경우
+		MessageBox(_T("품절인 상품입니다"));
+		m_Flag_SOLDOUT = TRUE;
 
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		return; // 주문 실 패 
+	}
+	addOrder(8);
+	minStock(Stock, getName(m_OrderList[7].mName), 1);
+	showSoldOut();
+
 }
 
 
@@ -2726,4 +2873,303 @@ int CMFCKIOSKDlg::minOrder(int POS) //매뉴 수량 -1 버튼 처리
 		showOrderList();
 	}
 	return 0;
+}
+
+
+
+
+void CMFCKIOSKDlg::changeSoldout_Img(int pictureControl) // 위치 번호를 받아서 해당하는 위치에 SOLDOUT이미지를 띄워주는 함수
+{	
+	switch (pictureControl) {
+		case 1:
+			HBITMAP hbit1;
+			hbit1 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl1.SetBitmap(hbit1);
+			break;
+		case 2:
+			HBITMAP hbit2;
+			hbit2 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl2.SetBitmap(hbit2);
+			break;
+		case 3:
+			HBITMAP hbit3;
+			hbit3 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl3.SetBitmap(hbit3);
+			break;
+		case 4:
+			HBITMAP hbit4;
+			hbit4 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl4.SetBitmap(hbit4);
+			break;
+		case 5:
+			HBITMAP hbit5;
+			hbit5 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl5.SetBitmap(hbit5);
+			break;
+		case 6:
+			HBITMAP hbit6;
+			hbit6 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl6.SetBitmap(hbit6);
+			break;
+		case 7:
+			HBITMAP hbit7;
+			hbit7 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl7.SetBitmap(hbit7);
+			break;
+		case 8:
+			HBITMAP hbit8;
+			hbit8 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl8.SetBitmap(hbit8);
+			break;
+		case 9:
+			HBITMAP hbit9;
+			hbit9 = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(185));
+			m_pictureControl9.SetBitmap(hbit9);
+			break;
+		}
+
+
+}	
+
+
+
+
+void CMFCKIOSKDlg::showSoldOut()
+{
+	for (const auto& item : Stock) { //재고 map의 모든 행을 루프
+		if (item.second == 0) { //재고가 0개인지 확인
+			showSoldOut_Image(item.first);
+		}
+	}
+}
+
+
+
+
+void CMFCKIOSKDlg::showSoldOut_Image(string mNameStr) //재고가 0개일때 호출되서 해당 매뉴를 품절 표시하는 함수 
+{
+	CString strText;
+	string str;
+	
+	m_Text1.GetWindowText(strText); 
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr) 
+		changeSoldout_Img(1);
+
+	m_Text2.GetWindowText(strText); 
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr) 
+		changeSoldout_Img(2);
+
+	m_Text3.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(3);
+
+	m_Text4.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(4);
+
+	m_Text5.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(5);
+
+	m_Text6.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(6);
+
+	m_Text7.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(7);
+
+	m_Text8.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(8);
+
+	m_Text9.GetWindowText(strText);
+	str = (LPCTSTR)strText;
+	if (convertNameString(str) == mNameStr)
+		changeSoldout_Img(9);
+
+
+
+
+}	
+
+
+
+
+string CMFCKIOSKDlg::convertNameString(string str)
+{
+	// Coffee items
+	if ((str == "아메리카노(ice)") || (str == "Americano(ice)") || (str == "美式水兒(ice)")) {
+		return "아메리카노_아이스";
+	}
+	else if ((str == "아메리카노(hot)") || (str == "Americano(hot)") || (str == "美式水兒(hot)")) {
+		return "아메리카노_핫";
+	}
+	else if ((str == "카페라떼(ice)") || (str == "Latte(ice)") || (str == "拿鐵水兒(ice)")) {
+		return "카페라떼_아이스";
+	}
+	else if ((str == "카페라떼(hot)") || (str == "Latte(hot)") || (str == "拿鐵水兒(hot)")) {
+		return "카페라떼_핫";
+	}
+	else if ((str == "카라멜마끼아또(ice)") || (str == "Caramel Macchiato(ice)") || (str == "焦糖瑪奇(ice)")) {
+		return "카라멜마끼아또_아이스";
+	}
+	else if ((str == "카라멜마끼아또(hot)") || (str == "Caramel Macchiato(hot)") || (str == "焦糖瑪奇(hot)")) {
+		return "카라멜마끼아또_핫";
+	}
+	else if ((str == "콜드브루") || (str == "Cold Brew") || (str == "冷萃水兒")) {
+		return "콜드브루";
+	}
+	else if ((str == "바닐라라떼(ice)") || (str == "Vanilla Latte(ice)") || (str == "香草拿鐵(ice)")) {
+		return "바닐라라떼_아이스";
+	}
+	else if ((str == "바닐라라떼(hot)") || (str == "Vanilla Latte(hot)") || (str == "香草拿鐵(hot)")) {
+		return "바닐라라떼_핫";
+	}
+	else if (str == "에스프레소") {
+		return "에스프레소";
+	}
+	else if (str == "카페모카") {
+		return "카페모카";
+
+		// Tea and other drinks
+	}
+	else if ((str == "녹차프라페") || (str == "Green tea Frappe") || (str == "綠茶普拉佩")) {
+		return "녹차프라페";
+	}
+	else if ((str == "쿠키프라페") || (str == "Cookie Frappe") || (str == "曲奇普拉佩")) {
+		return "쿠키프라페";
+	}
+	else if ((str == "민트프라페") || (str == "Mint Frappe") || (str == "薄荷色普拉佩")) {
+		return "민트프라페";
+	}
+	else if ((str == "요거트스무디") || (str == "Yoghurt Smoothie") || (str == "乳酸菌果昔")) {
+		return "요거트스무디";
+	}
+	else if ((str == "유니콘프라페") || (str == "Unicorn Frappe") || (str == "獨角獸普拉佩")) {
+		return "유니콘프라페";
+	}
+	else if ((str == "유자차") || (str == "Citron Tea") || (str == "柚子茶")) {
+		return "유자차";
+	}
+	else if ((str == "페퍼민트") || (str == "Peppermint")) {
+		return "페퍼민트";
+	}
+	else if ((str == "캐모마일") || (str == "Chamomile") || (str == "洋甘菊茶")) {
+		return "캐모마일";
+	}
+	else if ((str == "얼그레이") || (str == "Earl Grey") || (str == "伯爵茶")) {
+		return "얼그레이";
+	}
+	else if (str == "녹차") {
+		return "녹차";
+	}
+	else if ((str == "사과유자차") || (str == "Apple citron Tea") || (str == "沙果柚子茶")) {
+		return "사과유자차";
+
+		// Pastries and desserts
+	}
+	else if ((str == "아이스크림 크로플") || (str == "Ice cream Croffles") || (str == "氷菓淋麥子")) {
+		return "아이스크림크로플";
+	}
+	else if ((str == "크루아상") || (str == "Croissants") || (str == "牛角面包")) {
+		return "크루아상";
+	}
+	else if ((str == "마들렌") || (str == "Madeleine") || (str == "瑪德蓮蛋")) {
+		return "마들렌";
+	}
+	else if ((str == "스콘") || (str == "Scone") || (str == "司康")) {
+		return "스콘";
+	}
+	else if ((str == "마카롱") || (str == "Macaron") || (str == "蛋白杏仁")) {
+		return "마카롱";
+	}
+	else if ((str == "샌드위치") || (str == "Sandwich") || (str == "三明治")) {
+		return "샌드위치";
+	}
+	else if ((str == "아이스크림 슈") || (str == "Ice cream Puff") || (str == "氷淇淋泡芙")) {
+		return "아이스크림슈";
+	}
+	else if ((str == "롤케익") || (str == "Roll Cake") || (str == "瑞士卷")) {
+		return "롤케익";
+	}
+	else if ((str == "초코칩쿠키") || (str == "Chocolate chip Cookies") || (str == "巧克力餠干")) {
+		return "초코칩쿠키";
+	}
+	else if ((str == "약과") || (str == "Yakgwa") || (str == "藥果")) {
+		return "약과";
+
+		// Default case if no match is found
+	}
+	else {
+		return "Unknown Item";
+	}
+}
+
+
+
+
+//Stock map에 quantity만큼 재고 추가 함수 
+void CMFCKIOSKDlg::addStock(map<string, int>& Stock, const string& itemName, int quantity) 
+{
+	Stock[itemName] += quantity;
+}
+
+//Stock map에 quantity만큼 재고 제거 함수
+void CMFCKIOSKDlg::minStock(map<string, int>& Stock, const string& itemName, int quantity)
+{
+	Stock[itemName] -= quantity;
+}
+
+
+bool CMFCKIOSKDlg::isSoldOut(map<string, int>& Stock, const string& itemName) {
+	// 메뉴 항목이 맵에 있는지 확인하는 함수
+	auto it = Stock.find(itemName);
+	if (it != Stock.end()) {
+		// 메뉴 항목이 맵에 있으면, 재고를 확인
+		return it->second == 0;
+	}
+	else {
+		// 메뉴 항목이 맵에 없으면, 기본적으로 판매 중지로 간주할 수 있음
+		return true;
+	}
+}
+
+void CMFCKIOSKDlg::refreshAll_Images() //매뉴 이미지 전체를 새로고침
+{/*
+	bool m_buttonCoffee;
+	bool m_buttonBread;
+	bool m_buttonTea;
+	bool m_buttonCraft;
+	bool m_buttonBreadDown;
+	bool m_buttonCoffeeDown;
+	bool m_buttonCraftDown;
+	bool m_buttonTeaDown;*/
+	CString cstr;
+	string str;
+
+	m_Text1.GetWindowText(cstr);
+	str = (LPCTSTR)cstr;
+	if ((str == "아메리카노(ice)") || (str == "Americano(ice)") || (str == "美式水兒(ice)"))
+		OnClickedButtonCoffee();
+	else if ((str == "녹차프라페") || (str == "Green tea Frappe") || (str == "綠茶普拉佩"))
+		OnClickedButtonCraft();
+	else if ((str == "아이스크림 크로플") || (str == "Ice cream Croffles") || (str == "氷菓淋麥子"))
+		OnClickedButtonBread();
+	else if ((str == "유자차") || (str == "Citron Tea") || (str == "柚子茶"))
+		OnClickedButtonTea();
+	else if ((str == "약과") || (str == "Yakgwa") || (str == "藥果"))
+		ClickedBreadDown();
+	else if (str == "에스프레소")
+		ClickedCoffeeDown();
+	else
+		;
 }
