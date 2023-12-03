@@ -3070,7 +3070,7 @@ void CMFCKIOSKDlg::initdb()
 	CString ymd; // yy_mm_dd
 	ymd.Format(_T("%04d_%02d_%02d"), tinit.GetYear(), tinit.GetMonth(), tinit.GetDay());
 
-	AfxMessageBox(ymd);
+	// AfxMessageBox(ymd);
 
 	BOOL bret = db.OpenEx(_T("DSN=kiosk_db;"));
 
@@ -3088,22 +3088,25 @@ void CMFCKIOSKDlg::initdb()
 		//AfxMessageBox(usedb);
 		db.ExecuteSQL(usedb);
 
+		// 재고기능 보류
+		/*
 		CString t0col = _T("pcode INT, p int, q int");
 		CString maket0 = _T("CREATE TABLE IF NOT EXISTS t0_stock();");
 		maket0.Insert(36, t0col);
 		//AfxMessageBox(maket0);
+		*/
 
-		CString t1col = _T("tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int");
-		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1();");
-		maket1.Insert(38, t1col);
+		CString t1col = _T("(tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int);");
+		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1 ");
+		maket1 += t1col;
 		//AfxMessageBox(maket1);
 
-		CString t2col = _T(" tno int, dt DATETIME, type bool, sum int");
-		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2();");
-		maket2.Insert(38, t2col);
+		CString t2col = _T("(tno int, dt DATETIME, type bool, sum int);");
+		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2 ");
+		maket2 += t2col;
 		//AfxMessageBox(maket2);
 
-		db.ExecuteSQL(maket0);
+		//db.ExecuteSQL(maket0);
 		db.ExecuteSQL(maket1);
 		db.ExecuteSQL(maket2);
 
@@ -3182,7 +3185,7 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 		// datetime, int, bool, int, int, int, int
 		int pprice = getPrice(Order[i].mName);
 		value1[i].Format(_T("(%d, \"%s\", %d, %d, %d, %d, %d)"),
-			ymdhms, Tno, 0, Order[i].mName, pprice, Order[i].mQty, Order[i].mSum
+			Tno, ymdhms, 0, Order[i].mName, pprice, Order[i].mQty, Order[i].mSum
 			);
 		t1query += value1[i];
 
@@ -3200,7 +3203,7 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	// dt, tno, type, sum
 	// datetime, int, bool, int
 	CString value2;
-	value2.Format(_T("(%d, \"%s\", %d, %d);"),ymdhms, Tno, 0, transsum);
+	value2.Format(_T("(%d, \"%s\", %d, %d);"), Tno, ymdhms, 0, transsum);
 	t2query += value2;
 
 	// testcode

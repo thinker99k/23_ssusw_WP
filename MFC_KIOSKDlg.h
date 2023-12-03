@@ -9,6 +9,8 @@
 #include <afxdb.h>
 #include <odbcinst.h>
 #include <sqlext.h>
+
+
 #include <map>
 #include <string>
 using namespace std;
