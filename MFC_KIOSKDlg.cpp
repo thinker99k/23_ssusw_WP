@@ -387,8 +387,8 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_TOGO)->GetSafeHwnd(), _T(""), _T(""));*/
 
 	Tno = 1;
-	initdb();
-	inittno();
+	//initdb();
+	//inittno();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -1690,6 +1690,15 @@ HBRUSH CMFCKIOSKDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 }
 
 
+
+
+
+
+
+
+
+
+
 void CMFCKIOSKDlg::OnClickedButtonHere()
 {
 
@@ -1699,7 +1708,7 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 	}
 	m_dlgPay.DoModal();
 
-	buy(); //DB에 주문 정보 전송
+	//buy(); //DB에 주문 정보 전송
 
 	
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
@@ -1715,11 +1724,15 @@ void CMFCKIOSKDlg::OnClickedButtonTogo()
 	}
 	m_dlgPay.DoModal();
 
-	buy();
+	//buy();
 
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
 
 }
+
+
+
+
 
 
 
