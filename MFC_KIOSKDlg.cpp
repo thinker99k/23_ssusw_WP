@@ -1749,6 +1749,7 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 
 	setDB(); //DB에 주문 정보 전송
 
+	
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
 	
 }
@@ -3192,7 +3193,6 @@ void CMFCKIOSKDlg::initOrderList_ALL() // 주문 리스트 전체 초기화 함�
 
 	refreshAll_Images(); //매뉴 이미지 전체 새로고침
 	showSoldOut(); // 품절 상품에 SOLDOUTT 이미지 표시 
-}
 
 
 bool CMFCKIOSKDlg::setDB() //DB에 주문 내용 전송
@@ -3211,3 +3211,4 @@ bool CMFCKIOSKDlg::setDB() //DB에 주문 내용 전송
 
 	return true; //성공
 }
+>>>>>>>>> Temporary merge branch 2
