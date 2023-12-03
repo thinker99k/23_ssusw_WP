@@ -159,8 +159,6 @@ public:
 	CEdit m_edit8;
 	
 
-	CDatabase db; // CDatabase db;
-	int Tno; // 거래(영수증)번호 // 보류!
 
 	afx_msg void OnClickedButtonHere();
 	afx_msg void OnClickedButtonTogo();
@@ -190,6 +188,12 @@ public:
 	afx_msg void OnStnClickedTextOrder19();
 	
 	void Add_List(int);
+
+
+
+	CDatabase db; // CDatabase db;
+	int Tno; // 거래(영수증)번호 // 보류!
+
 
 	//주문 리스트 구조체 ( 앱 내부용 )
 	struct OrderList {
@@ -343,7 +347,6 @@ public:
 	void initOrderList_ALL();
 
 	void initdb(void);
-	void initstock(void);
 	void inittno(void);
 	bool buy(void);
 };
