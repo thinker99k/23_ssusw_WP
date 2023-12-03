@@ -38,7 +38,7 @@ BOOL Modal_Loading::OnInitDialog()
     }
 
     m_nTimer = SetTimer(1, 3000, nullptr); // 3초 후 onTimer함수 실행
-    
+
     flag_pay_done = true;
     return TRUE;
 }

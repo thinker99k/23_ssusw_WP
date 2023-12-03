@@ -340,4 +340,5 @@ public:
 
 	bool m_Flag_SOLDOUT;
 	void initOrderList_ALL();
+	bool setDB();
 };
