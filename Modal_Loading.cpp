@@ -5,7 +5,7 @@
 #include "MFC_KIOSK.h"
 #include "afxdialogex.h"
 #include "Modal_Loading.h"
-
+#include "flag.h"
 
 // Modal_Loading 대화 상자
 
@@ -39,6 +39,7 @@ BOOL Modal_Loading::OnInitDialog()
 
     m_nTimer = SetTimer(1, 3000, nullptr); // 3초 후 onTimer함수 실행
 
+    flag_pay_done = true;
     return TRUE;
 }
 

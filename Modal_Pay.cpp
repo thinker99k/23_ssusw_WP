@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "Modal_Pay.h"
 #include "Modal_Loading.h"
+#include "flag.h"
 
 IMPLEMENT_DYNAMIC(Modal_Pay, CDialogEx)
 
@@ -57,7 +58,7 @@ void Modal_Pay::OnBnClickedButtonBack()
 	OnCancel();
 }
 
-void Modal_Pay::OnBnClickedButtonKakao()
+void Modal_Pay::OnBnClickedButtonKakao() //카카오 결제버튼
 {
 	if (m_dlgLoading == nullptr) {
 		m_dlgLoading = new Modal_Loading(this);
@@ -74,10 +75,10 @@ void Modal_Pay::OnBnClickedButtonKakao()
 	if (result == IDOK) {
 		::PostMessage(GetSafeHwnd(), WM_USER_PAYMENT_COMPLETED, 0, 0);
 	}
-
+	flag_pay_done = true;
 }
 
-void Modal_Pay::OnBnClickedButtonNaver() {
+void Modal_Pay::OnBnClickedButtonNaver() { //네이버 결제버튼
 	if (m_dlgLoading == nullptr) {
 		m_dlgLoading = new Modal_Loading(this);
 		if (m_dlgLoading != nullptr) {

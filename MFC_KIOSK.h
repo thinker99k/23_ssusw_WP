@@ -31,6 +31,8 @@ public:
 	CDC			m_MemDC;
 	CDC			m_cDC;
 
+	
+
 };
 
 extern CMFCKIOSKApp theApp;

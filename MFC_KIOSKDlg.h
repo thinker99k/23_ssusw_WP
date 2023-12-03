@@ -339,4 +339,6 @@ public:
 	void refreshAll_Images();
 
 	bool m_Flag_SOLDOUT;
+	void initOrderList_ALL();
+	bool setDB();
 };

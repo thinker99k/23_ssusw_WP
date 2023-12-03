@@ -6,7 +6,7 @@
 #include "framework.h"
 #include "MFC_KIOSK.h"
 #include "MFC_KIOSKDlg.h"
-
+#include "flag.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -95,6 +95,7 @@ BOOL CMFCKIOSKApp::InitInstance()
 	{
 		delete pShellManager;
 	}
+
 
 #if !defined(_AFXDLL) && !defined(_AFX_NO_MFC_CONTROLS_IN_DIALOGS)
 	ControlBarCleanUp();

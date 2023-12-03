@@ -7,6 +7,7 @@
 #include "Modal_Loading.h"
 
 
+
 // Modal_Pay 대화 상자
 
 class Modal_Pay : public CDialogEx
