@@ -65,9 +65,6 @@ public:
 
 	//void m_setFont2(CFont font, int nID); //사용하지 않는 함수!!!!!!!!
 
-
-
-
 	void m_setFont_menu(int fontsize, int FW);
 	void m_setFont_price(int fontsize, int FW);
 	void m_setFont_editbox(int fontsize, int FW);
@@ -160,6 +157,8 @@ public:
 	CEdit m_edit8;
 	
 
+	CDatabase db; // CDatabase db;
+	int Tno; // 거래(영수증)번호 // 보류!
 
 	afx_msg void OnClickedButtonHere();
 	afx_msg void OnClickedButtonTogo();
@@ -194,7 +193,7 @@ public:
 	struct OrderList {
 	int mName = 0; //매뉴명 
 	int mQty = 0; // 수량 
-	int mSum = 0; // 가격 총합
+	int mSum = 0; // 메뉴당 가격 총합
 	};
 
 	//주문 리스트 구조체 배열 선언
@@ -340,5 +339,9 @@ public:
 
 	bool m_Flag_SOLDOUT;
 	void initOrderList_ALL();
-	bool setDB();
+
+	void initdb(void);
+	void initstock(void);
+	void inittno(void);
+	bool buy(void);
 };

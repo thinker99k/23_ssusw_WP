@@ -175,72 +175,13 @@ BEGIN_MESSAGE_MAP(CMFCKIOSKDlg, CDialogEx)
 	ON_STN_CLICKED(IDC_right8, &CMFCKIOSKDlg::OnStnClickedright8)
 END_MESSAGE_MAP()
 
-typedef struct {
-	CString pname;
-	int p;
-	int q;
-}Product;
-
-Product Array_Stock[32];
-
-void initdb(void) {
-	CDatabase db;
-	CRecordset rs(&db);
-
-	CTime t = CTime::GetCurrentTime();
-	CString ymd;
-	ymd.Format(_T("%d_%d_%d"), t.GetYear(), t.GetMonth(), t.GetDay());
-
-	BOOL bret = db.OpenEx(_T("DSN=kiosk_db;"));
-
-	if (bret) // 연결 성공시
-	{
-		CString dbname = _T("db_");
-		dbname.Insert(3, ymd);
-		CString initdb = _T("CREATE DATABASE IF NOT EXISTS ;");
-		initdb.Insert(30, dbname);
-		//AfxMessageBox(dbname);
-		db.ExecuteSQL(initdb);
-
-		CString usedb = _T("USE ;");
-		usedb.Insert(4, dbname);
-		//AfxMessageBox(usedb);
-		db.ExecuteSQL(usedb);
-
-		CString t0col = _T("pcode INT, p int, q int");
-		CString maket0 = _T("CREATE TABLE IF NOT EXISTS t0_stock();");
-		maket0.Insert(36, t0col);
-		//AfxMessageBox(maket0);
-
-		CString t1col = _T("dt DATETIME, tno int, type bool, pcode int, p int, q int");
-		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1();");
-		maket1.Insert(38, t1col);
-		//AfxMessageBox(maket1);
-
-		CString t2col = _T("dt DATETIME, tno int, type bool, sum int");
-		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2();");
-		maket2.Insert(38, t2col);
-		//AfxMessageBox(maket2);
-
-		db.ExecuteSQL(maket0);
-		db.ExecuteSQL(maket1);
-		db.ExecuteSQL(maket2);
-
-		AfxMessageBox(_T("db inited"));
-	}
-	else
-	{
-		AfxMessageBox(_T("db error"));
-	}
-}
 
 // CMFCKIOSKDlg 메시지 처리기
 BOOL CMFCKIOSKDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	
-	//initdb();
-	
+
+	Tno = 1;
 	// 시스템 메뉴에 "정보..." 메뉴 항목을 추가합니다.
 
 	// IDM_ABOUTBOX는 시스템 명령 범위에 있어야 합니다.
@@ -445,11 +386,14 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_HERE)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_TOGO)->GetSafeHwnd(), _T(""), _T(""));*/
 
-
-
+	initdb();
+	initstock();
+	inittno();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
+
+
 
 void CMFCKIOSKDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
@@ -1747,7 +1691,7 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 	}
 	m_dlgPay.DoModal();
 
-	setDB(); //DB에 주문 정보 전송
+	buy(); //DB에 주문 정보 전송
 
 	
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
@@ -1763,6 +1707,7 @@ void CMFCKIOSKDlg::OnClickedButtonTogo()
 	}
 	m_dlgPay.DoModal();
 
+	buy();
 
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
 
@@ -2952,9 +2897,6 @@ void CMFCKIOSKDlg::showSoldOut()
 	}
 }
 
-
-
-
 void CMFCKIOSKDlg::showSoldOut_Image(string mNameStr) //재고가 0개일때 호출되서 해당 매뉴를 품절 표시하는 함수 
 {
 	CString strText;
@@ -3009,8 +2951,6 @@ void CMFCKIOSKDlg::showSoldOut_Image(string mNameStr) //재고가 0개일때 호
 
 
 }	
-
-
 
 
 string CMFCKIOSKDlg::convertNameString(string str)
@@ -3124,7 +3064,156 @@ string CMFCKIOSKDlg::convertNameString(string str)
 }
 
 
+void CMFCKIOSKDlg::initdb()
+{
+	CTime tinit = CTime::GetCurrentTime(); // 현재 시간
+	CString ymd; // yy_mm_dd
+	ymd.Format(_T("%04d_%02d_%02d"), tinit.GetYear(), tinit.GetMonth(), tinit.GetDay());
 
+	AfxMessageBox(ymd);
+
+	BOOL bret = db.OpenEx(_T("DSN=kiosk_db;"));
+
+	if (bret) // 연결 성공시
+	{
+		CString dbname = _T("db_");
+		dbname.Insert(3, ymd);
+		CString initdb = _T("CREATE DATABASE IF NOT EXISTS ;");
+		initdb.Insert(30, dbname);
+		//AfxMessageBox(dbname);
+		db.ExecuteSQL(initdb);
+
+		CString usedb = _T("USE ;");
+		usedb.Insert(4, dbname);
+		//AfxMessageBox(usedb);
+		db.ExecuteSQL(usedb);
+
+		CString t0col = _T("pcode INT, p int, q int");
+		CString maket0 = _T("CREATE TABLE IF NOT EXISTS t0_stock();");
+		maket0.Insert(36, t0col);
+		//AfxMessageBox(maket0);
+
+		CString t1col = _T("dt DATETIME, tno int, type bool, pcode int, p int, q int, pq int");
+		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1();");
+		maket1.Insert(38, t1col);
+		//AfxMessageBox(maket1);
+
+		CString t2col = _T("dt DATETIME, tno int, type bool, sum int");
+		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2();");
+		maket2.Insert(38, t2col);
+		//AfxMessageBox(maket2);
+
+		db.ExecuteSQL(maket0);
+		db.ExecuteSQL(maket1);
+		db.ExecuteSQL(maket2);
+
+		/*
+		TODO: TNO 가져오기 // 보류
+		*/
+
+		AfxMessageBox(_T("db inited"));
+	}
+	else
+	{
+		AfxMessageBox(_T("db error"));
+	}
+}
+
+void CMFCKIOSKDlg::initstock()
+{
+	/*
+	* TODO :
+	* CRecordset으로 Map Stock복구
+	*/
+	return;
+}
+
+void CMFCKIOSKDlg::inittno()
+{
+	/*
+	* TODO :
+	* CRecordset으로 int Tno복구
+	*/
+	return;
+}
+
+bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
+{
+	struct OrderList Order[8]; // buy 내에서 사용
+
+	for (int i = 0; i < 8; i++) {
+		Order[i] = m_OrderList[i];
+	}
+
+	/*
+	*	TO DO :
+	*
+	Order 구조체 배열에서 이름 , 수량 가격 정보로 DB에 쏴주는 로직
+	*/
+
+	CTime ttrans = CTime::GetCurrentTime();
+	CString ymdhms; // datetime으로 manual parsing 후 mysql insert
+	ymdhms.Format(_T("%04d-%02d-%02d %02d:%02d:%02d"), ttrans.GetYear(), ttrans.GetMonth(), ttrans.GetDay(), ttrans.GetHour(), ttrans.GetMinute(), ttrans.GetSecond());
+
+	// t0_stock
+	// stock 값 받아와야해서 보류
+	/*
+	CString fullquery = _T("INSERT INTO t0_stock\nVALUES\n;");
+	CString query1[8];
+	for (int i = 0; i < 8; i++) {
+		
+	}
+	*/
+
+	// t1_trans_1
+	CString t1query = _T("INSERT INTO t1_trans_1(dt, tno, type, pcode, p, q, pq) VALUES ");
+	CString value1[8];
+
+	int transsum = 0;
+
+	for (int i = 0; i < 8; i++) {
+		if (Order[i].mSum == 0) {
+			break;
+		}
+
+		transsum += Order[i].mSum;
+		// t1_trans_1
+		// dt, tno, type, pcode, p, q, pq
+		// datetime, int, bool, int, int, int, int
+		int pprice = getPrice(Order[i].mName);
+		value1[i].Format(_T("(\"%s\", %d, %d, %d, %d, %d, %d)"),
+			ymdhms, Tno, 0, Order[i].mName, pprice, Order[i].mQty, Order[i].mSum
+			);
+		t1query += value1[i];
+
+		if (i < 7) {
+			if (Order[i + 1].mSum != 0) {
+				t1query += _T(", ");
+			}
+		}
+	}
+	t1query += _T(";");
+
+	CString t2query = _T("INSERT INTO t2_trans_2(dt, tno, type, sum) VALUES ");
+
+	// t2_trans_2
+	// dt, tno, type, sum
+	// datetime, int, bool, int
+	CString value2;
+	value2.Format(_T("(\"%s\", %d, %d, %d);"),ymdhms, Tno, 0, transsum);
+	t2query += value2;
+
+	// testcode
+	// AfxMessageBox(t1query);
+	// AfxMessageBox(t2query);
+
+	db.ExecuteSQL(t1query);
+	db.ExecuteSQL(t2query);
+
+	++Tno; // db 연동은 보류
+
+	return true; //성공
+}
 
 //Stock map에 quantity만큼 재고 추가 함수 
 void CMFCKIOSKDlg::addStock(map<string, int>& Stock, const string& itemName, int quantity) 
@@ -3137,7 +3226,6 @@ void CMFCKIOSKDlg::minStock(map<string, int>& Stock, const string& itemName, int
 {
 	Stock[itemName] -= quantity;
 }
-
 
 bool CMFCKIOSKDlg::isSoldOut(map<string, int>& Stock, const string& itemName) {
 	// 메뉴 항목이 맵에 있는지 확인하는 함수
@@ -3193,22 +3281,5 @@ void CMFCKIOSKDlg::initOrderList_ALL() // 주문 리스트 전체 초기화 함�
 
 	refreshAll_Images(); //매뉴 이미지 전체 새로고침
 	showSoldOut(); // 품절 상품에 SOLDOUTT 이미지 표시 
-}
-
-bool CMFCKIOSKDlg::setDB() //DB에 주문 내용 전송
-{
-	struct OrderList OrderList[8];
-	for (int i = 0; i < 8; i++) {
-		OrderList[i] = m_OrderList[i];
-	}
-
-	/*
-	*	TO DO :
-	* 
-		OrderList 구조체 배열에서 이름 , 수량 가격 정보로 DB에 쏴주는 로직
-	*/
-
-
-	return true; //성공
 }
 

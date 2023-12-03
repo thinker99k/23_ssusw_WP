@@ -148,3 +148,5 @@ LRESULT Modal_Pay::OnPaymentCompleted(WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
+
+
