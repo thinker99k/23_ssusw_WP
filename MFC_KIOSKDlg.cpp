@@ -803,7 +803,7 @@ void CMFCKIOSKDlg::OnClickedButtonCoffee()
 	m_buttonCoffee = true;
 	ClickedCoffeeUp();
 	m_buttonCraft = m_buttonTea = m_buttonBread = false;
-
+	m_buttonCoffeeDown = false;
 	showSoldOut();
 }
 
