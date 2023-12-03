@@ -3067,7 +3067,6 @@ string CMFCKIOSKDlg::convertNameString(string str)
 void CMFCKIOSKDlg::initdb()
 {
 	CTime tinit = CTime::GetCurrentTime(); // 현재 시간
-	CString ymd; // yy_mm_dd
 	ymd.Format(_T("%04d_%02d_%02d"), tinit.GetYear(), tinit.GetMonth(), tinit.GetDay());
 
 	BOOL bret = db.OpenEx(_T("DSN=kiosk_db;"));
@@ -3114,25 +3113,31 @@ void CMFCKIOSKDlg::initdb()
 
 void CMFCKIOSKDlg::inittno()
 {
-	CRecordset(db);
+	CRecordset rs;
+	rs.m_pDatabase = &db;
+
+	CString query = _T("SELECT * FROM t2_trans_2;");
+	rs.Open(CRecordset::snapshot, query);
 
 
-	// 여기서 Tno 갱신 없고, 무조건 받아오기만, 갱신은 buy에서
-	int dbtno;
-	int lastTno = 1; // 마지막행 tno;
-	if (lastTno == true) {
-		// 오늘자db->t0_bootlog에 tno 있을 때
-		Tno = lastTno+1;
+	while (!rs.IsEOF()) {
+		CString tmp;
+		rs.GetFieldValue(_T("tno"), tmp);
+		int itmp = atoi(tmp);
+
+		if (itmp > Tno) {
+			Tno = itmp;
+		}
+
+		rs.MoveNext();
 	}
-	else {
-		// tno 없을 때 (첫 부팅일 때)
-		Tno = 1;
-	}
 
-	/*
-	* TODO :
-	* CRecordset으로 int Tno복구
-	*/
+	++Tno;
+
+	//testcode
+	CString strtno;
+	strtno.Format(_T("%d"),Tno);
+	AfxMessageBox(strtno);
 }
 
 bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
@@ -3147,7 +3152,7 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 		Order[i] = m_OrderList[i];
 	}
 
-	
+
 	// t1_trans_1
 	CString t1query = _T("INSERT INTO t1_trans_1(tno, dt, type, pcode, p, q, pq) VALUES ");
 	CString value1[8];
@@ -3166,7 +3171,7 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 		int pprice = getPrice(Order[i].mName);
 		value1[i].Format(_T("(%d, \"%s\", %d, %d, %d, %d, %d)"),
 			Tno, ymdhms, 0, Order[i].mName, pprice, Order[i].mQty, Order[i].mSum
-			);
+		);
 		t1query += value1[i];
 
 		if (i < 7) {

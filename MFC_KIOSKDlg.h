@@ -193,6 +193,7 @@ public:
 
 	CDatabase db; // CDatabase db;
 	int Tno; // 거래(영수증)번호 // 보류!
+	CString ymd; // yy_mm_dd
 
 
 	//주문 리스트 구조체 ( 앱 내부용 )
