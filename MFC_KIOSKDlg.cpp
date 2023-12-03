@@ -387,8 +387,8 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_TOGO)->GetSafeHwnd(), _T(""), _T(""));*/
 
 	Tno = -1;
-	initdb();
-	inittno();
+	//initdb();
+	//inittno();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -803,7 +803,7 @@ void CMFCKIOSKDlg::OnClickedButtonCoffee()
 	m_buttonCoffee = true;
 	ClickedCoffeeUp();
 	m_buttonCraft = m_buttonTea = m_buttonBread = false;
-
+	m_buttonCoffeeDown = false;
 	showSoldOut();
 }
 
@@ -1072,7 +1072,8 @@ void CMFCKIOSKDlg::ClickedCoffeeDown()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCraft = m_buttonTea = m_buttonBread = false;
-
+	m_buttonBreadDown = false;
+	m_buttonCoffeeDown = false;
 	showSoldOut();
 
 }
@@ -1150,6 +1151,8 @@ void CMFCKIOSKDlg::ClickedCraftUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonTea = m_buttonBread = false;
+	m_buttonCoffeeDown = false;
+	m_buttonBreadDown = false;
 
 	showSoldOut();
 
@@ -1246,6 +1249,8 @@ void CMFCKIOSKDlg::ClickedTeaUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonCraft = m_buttonBread = false;
+	m_buttonCoffeeDown = false;
+	m_buttonBreadDown = false;
 
 	showSoldOut();
 
@@ -1359,6 +1364,8 @@ void CMFCKIOSKDlg::ClickedBreadUp()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_B9));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonCraft = m_buttonTea = false;
+	m_buttonCoffeeDown = false;
+	m_buttonBreadDown = false;
 
 	showSoldOut();
 
@@ -1371,7 +1378,7 @@ void CMFCKIOSKDlg::ClickedBreadDown()
 	//DOWN화면
 	ClearTextFields();
 	m_buttonBread = true;
-
+	m_buttonBreadDown = true;
 	
 	if (m_korean) {                                        //한국어
 		m_Text1.SetWindowTextA(_T("약과"));
@@ -1411,7 +1418,8 @@ void CMFCKIOSKDlg::ClickedBreadDown()
 	hbit = ::LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP_EMPTY));
 	m_pictureControl9.SetBitmap(hbit);
 	m_buttonCoffee = m_buttonCraft = m_buttonTea = false;
-
+	m_buttonCoffeeDown = false;
+	
 	showSoldOut();
 
 }
@@ -1691,7 +1699,7 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 	}
 	m_dlgPay.DoModal();
 
-	buy(); //DB에 주문 정보 전송
+	//buy(); //DB에 주문 정보 전송
 
 	
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
@@ -1707,7 +1715,7 @@ void CMFCKIOSKDlg::OnClickedButtonTogo()
 	}
 	m_dlgPay.DoModal();
 
-	buy();
+	//buy();
 
 	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
 
