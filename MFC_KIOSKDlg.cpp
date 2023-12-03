@@ -3211,4 +3211,4 @@ bool CMFCKIOSKDlg::setDB() //DB에 주문 내용 전송
 
 	return true; //성공
 }
->>>>>>>>> Temporary merge branch 2
+
