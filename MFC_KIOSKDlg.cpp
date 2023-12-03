@@ -3093,12 +3093,12 @@ void CMFCKIOSKDlg::initdb()
 		maket0.Insert(36, t0col);
 		//AfxMessageBox(maket0);
 
-		CString t1col = _T("dt DATETIME, tno int, type bool, pcode int, p int, q int, pq int");
+		CString t1col = _T("tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int");
 		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1();");
 		maket1.Insert(38, t1col);
 		//AfxMessageBox(maket1);
 
-		CString t2col = _T("dt DATETIME, tno int, type bool, sum int");
+		CString t2col = _T(" tno int, dt DATETIME, type bool, sum int");
 		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2();");
 		maket2.Insert(38, t2col);
 		//AfxMessageBox(maket2);
@@ -3166,7 +3166,7 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	*/
 
 	// t1_trans_1
-	CString t1query = _T("INSERT INTO t1_trans_1(dt, tno, type, pcode, p, q, pq) VALUES ");
+	CString t1query = _T("INSERT INTO t1_trans_1(tno, dt, type, pcode, p, q, pq) VALUES ");
 	CString value1[8];
 
 	int transsum = 0;
@@ -3181,7 +3181,7 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 		// dt, tno, type, pcode, p, q, pq
 		// datetime, int, bool, int, int, int, int
 		int pprice = getPrice(Order[i].mName);
-		value1[i].Format(_T("(\"%s\", %d, %d, %d, %d, %d, %d)"),
+		value1[i].Format(_T("(%d, \"%s\", %d, %d, %d, %d, %d)"),
 			ymdhms, Tno, 0, Order[i].mName, pprice, Order[i].mQty, Order[i].mSum
 			);
 		t1query += value1[i];
@@ -3194,13 +3194,13 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	}
 	t1query += _T(";");
 
-	CString t2query = _T("INSERT INTO t2_trans_2(dt, tno, type, sum) VALUES ");
+	CString t2query = _T("INSERT INTO t2_trans_2(tno, dt, type, sum) VALUES ");
 
 	// t2_trans_2
 	// dt, tno, type, sum
 	// datetime, int, bool, int
 	CString value2;
-	value2.Format(_T("(\"%s\", %d, %d, %d);"),ymdhms, Tno, 0, transsum);
+	value2.Format(_T("(%d, \"%s\", %d, %d);"),ymdhms, Tno, 0, transsum);
 	t2query += value2;
 
 	// testcode
