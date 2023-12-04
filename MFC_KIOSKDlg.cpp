@@ -3107,18 +3107,17 @@ void CMFCKIOSKDlg::initdb()
 		//AfxMessageBox(usedb);
 		db.ExecuteSQL(usedb);
 
-		CString t1col = _T("(tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int);");
-		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1 ");
-		maket1 += t1col;
-		//AfxMessageBox(maket1);
-
-		CString t2col = _T("(tno int, dt DATETIME, type bool, sum int);");
+		CString t2col = _T("(tno int PRIMARY KEY, dt DATETIME, type bool, sum int);");
 		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2 ");
 		maket2 += t2col;
 		//AfxMessageBox(maket2);
-
-		db.ExecuteSQL(maket1);
 		db.ExecuteSQL(maket2);
+
+		CString t1col = _T("(tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int, FOREIGN KEY (tno) REFERENCES t2_trans_2(tno));");
+		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1 ");
+		maket1 += t1col;
+		//AfxMessageBox(maket1);
+		db.ExecuteSQL(maket1);
 
 		/*
 		TODO: TNO 가져오기 // 보류
@@ -3152,8 +3151,6 @@ void CMFCKIOSKDlg::inittno()
 
 		rs.MoveNext();
 	}
-
-	++Tno;
 
 	//testcode
 	CString strtno;
