@@ -25,4 +25,6 @@ protected:
 
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	int	dotCount;
+
 };
