@@ -387,8 +387,8 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_TOGO)->GetSafeHwnd(), _T(""), _T(""));*/
 
 	Tno = 1;
-	//initdb();
-	//inittno();
+	initdb();
+	inittno();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -3085,6 +3085,9 @@ string CMFCKIOSKDlg::convertNameString(string str)
 }
 
 
+
+
+
 void CMFCKIOSKDlg::initdb()
 {
 	CTime tinit = CTime::GetCurrentTime(); // 현재 시간
@@ -3218,11 +3221,14 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	db.ExecuteSQL(t1query);
 
 
-	++Tno; // db 연동은 보류
+	++Tno;
 
 
 	return true; //성공
 }
+
+
+
 
 //Stock map에 quantity만큼 재고 추가 함수 
 void CMFCKIOSKDlg::addStock(map<string, int>& Stock, const string& itemName, int quantity) 
