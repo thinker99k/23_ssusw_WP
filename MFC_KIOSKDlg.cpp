@@ -3214,8 +3214,9 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	// AfxMessageBox(t1query);
 	// AfxMessageBox(t2query);
 
-	db.ExecuteSQL(t1query);
 	db.ExecuteSQL(t2query);
+	db.ExecuteSQL(t1query);
+
 
 	++Tno; // db 연동은 보류
 
