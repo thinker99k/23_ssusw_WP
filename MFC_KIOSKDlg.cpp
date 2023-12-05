@@ -3139,7 +3139,6 @@ void CMFCKIOSKDlg::inittno()
 
 	CRecordset rs;
 	rs.m_pDatabase = &db;
-
 	CString query = _T("SELECT * FROM t2_trans_2;");
 	rs.Open(CRecordset::snapshot, query);
 
@@ -3159,9 +3158,9 @@ void CMFCKIOSKDlg::inittno()
 	Tno += 1;
 
 	//testcode
-	CString strtno;
-	strtno.Format(_T("%d"),Tno);
-	AfxMessageBox(strtno);
+	//CString strtno;
+	//strtno.Format(_T("%d"),Tno);
+	//AfxMessageBox(strtno);
 }
 
 bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
@@ -3207,8 +3206,6 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	t1query += _T(";");
 
 	// t2_trans_2
-	// dt, tno, type, sum
-	// datetime, int, bool, int
 	CString t2query = _T("INSERT INTO t2_trans_2(tno, dt, type, sum) VALUES ");
 	CString value2;
 	value2.Format(_T("(%d, \"%s\", %d, %d)"), Tno, ymdhms, 0, transsum);
@@ -3217,8 +3214,9 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 
 
 	// testcode
-	// AfxMessageBox(t1query);
+
 	// AfxMessageBox(t2query);
+	// AfxMessageBox(t1query);
 
 	db.ExecuteSQL(t2query);
 	db.ExecuteSQL(t1query);
