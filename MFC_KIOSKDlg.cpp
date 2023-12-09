@@ -1705,6 +1705,10 @@ HBRUSH CMFCKIOSKDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 void CMFCKIOSKDlg::OnClickedButtonHere()
 {
+	if (isInitial(m_OrderList[0])) {
+		//AfxMessageBox("주문 리스트가 비어있습니다!");
+		return;
+	}
 
 	// 매장에서 버튼을 눌렀을 때
 	if (m_dlgPay.GetSafeHwnd()) {
@@ -1722,6 +1726,11 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 
 void CMFCKIOSKDlg::OnClickedButtonTogo()
 {
+	if (isInitial(m_OrderList[0])) {
+		//AfxMessageBox("주문 리스트가 비어있습니다!");
+		return;
+	}
+
 	// 포장 버튼을 눌렀을 때
 	if (m_dlgPay.GetSafeHwnd()) {
 		m_dlgPay.DestroyWindow();
