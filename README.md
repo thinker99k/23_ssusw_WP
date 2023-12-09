@@ -14,7 +14,7 @@ MySQL ODBC Connector(https://dev.mysql.com/downloads/connector/odbc/) 로 DSN ki
 시작 -> ODBC 데이터원본(64비트) -> 시스템 DSN 추가
 
 ##
-랩탑에서 작업한다면 mysql이 시스템의 리소스를 상당히 많이 잡아먹기에, MySQL Service를 필요할때만 켤 필요가 있다.
+랩탑에서 작업한다면 MySQL Service가 시스템의 리소스를 상당히 많이 잡아먹기에, 필요할때만 켤 필요가 있다.
 
 https://github.com/kitsune03k/Passive_MySQL80
 
