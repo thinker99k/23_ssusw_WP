@@ -386,9 +386,14 @@ BOOL CMFCKIOSKDlg::OnInitDialog()
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_HERE)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_BUTTON_TOGO)->GetSafeHwnd(), _T(""), _T(""));*/
 
-	initdb();
-	inittno();
-	
+	db.OpenEx(_T("DSN=kiosk_db;"));
+
+	rs.m_pDatabase = &db;
+
+	initDB();
+
+	showSoldOut();
+
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
 
@@ -3083,65 +3088,113 @@ string CMFCKIOSKDlg::convertNameString(string str)
 	}
 }
 
-
-
-
-
-void CMFCKIOSKDlg::initdb()
+void CMFCKIOSKDlg::initDB(void)
 {
 	CTime tinit = CTime::GetCurrentTime(); // 현재 시간
 	ymd.Format(_T("%04d_%02d_%02d"), tinit.GetYear(), tinit.GetMonth(), tinit.GetDay());
+	t2name = ymd + _T("_t2_trans_2"); // "yyyy_mm_dd_t2_trans_2"
+	t1name = ymd + _T("_t1_trans_1"); // "yyyy_mm_dd_t2_trans_1"
+	
+	// stock, t1, t2
+	bool istable[3] = { FALSE, FALSE, FALSE };
 
-	BOOL bret = db.OpenEx(_T("DSN=kiosk_db;"));
+	CString querytable = _T("SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema = 'kdb';");
+	rs.Open(CRecordset::forwardOnly, querytable);
+	while (!rs.IsEOF()) {
+		CString tmp;
+		rs.GetFieldValue(_T("TABLE_NAME"), tmp);
 
-	if (bret) // 연결 성공시
-	{
-		CString dbname = _T("db_");
-		dbname += ymd;
-		CString initdb = _T("CREATE DATABASE IF NOT EXISTS ");
-		initdb += dbname;
-		initdb += _T(";");
-		//AfxMessageBox(dbname);
-		db.ExecuteSQL(initdb);
+		if (tmp == t2name) {
+			istable[2] = TRUE;
+		}
+		if (tmp == t1name) {
+			istable[1] = TRUE;
+		}
+		if (tmp == _T("stock")) {
+			istable[0] = TRUE;
+		}
 
-		CString usedb = _T("USE ;");
-		usedb.Insert(4, dbname);
-		//AfxMessageBox(usedb);
-		db.ExecuteSQL(usedb);
+		rs.MoveNext();
+	}
+	rs.Close();
 
-		CString t2col = _T("(tno int PRIMARY KEY, dt DATETIME, type bool, sum int);");
-		CString maket2 = _T("CREATE TABLE IF NOT EXISTS t2_trans_2 ");
+	// 오늘자 t2가 없을 때
+	if (istable[2] == FALSE) {
+		CString maket2 = _T("CREATE TABLE ");
+		maket2 += t2name; // "CREATE TABLE yyyy_mm_dd_t2_trans_2"
+		CString t2col = _T(" (tno int PRIMARY KEY, dt DATETIME, type bool, sum int);");
 		maket2 += t2col;
+
 		//AfxMessageBox(maket2);
 		db.ExecuteSQL(maket2);
+	}
 
-		CString t1col = _T("(tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int, FOREIGN KEY (tno) REFERENCES t2_trans_2(tno));");
-		CString maket1 = _T("CREATE TABLE IF NOT EXISTS t1_trans_1 ");
-		maket1 += t1col;
+	// 오늘자 t1이 없을 때
+	if (istable[1] == FALSE) {
+		CString maket1 = _T("CREATE TABLE ");
+		maket1 += t1name; // "CREATE TABLE IF NOT EXISTS yyyy_mm_dd_t1_trans_1"
+		CString t1col = _T(" (tno int, dt DATETIME, type bool, pcode int, p int, q int, pq int, FOREIGN KEY (tno) REFERENCES ");
+		maket1 += t1col; // "CREATE TABLE ... ( REFERENCES "
+		maket1 += (ymd + _T("_t2_trans_2(tno));")); // "CREATE TABLE ... ( tno int, ..., REFERENCES yyyy_mm_dd_t2_trans_2(tno) );"
+
 		//AfxMessageBox(maket1);
 		db.ExecuteSQL(maket1);
-
-		/*
-		TODO: TNO 가져오기 // 보류
-		*/
-
-		AfxMessageBox(_T("db inited"));
 	}
-	else
-	{
-		AfxMessageBox(_T("db error"));
+
+	// stock 테이블이 없을 때
+	if (istable[0] == FALSE) {
+		// stock table이 없으면 kdb.stock을 새로 만듦.
+		CString maket0 = _T("CREATE TABLE stock (pcode int, q int)");
+
+		CString t0query = _T("INSERT INTO stock (pcode, q) VALUES ");
+		for (int i = 0; i < 32; i++) {
+			CString tmp;
+			tmp.Format(_T("(%d, 10)"), i + 1);
+			t0query += tmp;
+			if (i < 31) {
+				t0query += _T(", ");
+			}
+		}
+		t0query += _T(";");
+
+		db.ExecuteSQL(maket0);
+		db.ExecuteSQL(t0query);
+		AfxMessageBox("Database : new stock table inited with value of 10");
 	}
+
+	restoreStock();
+	restoreTno();
 }
 
-void CMFCKIOSKDlg::inittno()
+void CMFCKIOSKDlg::restoreStock(void)
+{
+	int dbstock[32] = { 0, };
+
+	CString querystock = _T("SELECT * from kdb.stock;");
+	
+	rs.Open(CRecordset::forwardOnly, querystock);
+
+	int i = 0;
+	while (!rs.IsEOF()) {
+		CString tmp;
+		rs.GetFieldValue(_T("q"), tmp);
+		int itmp = atoi(tmp);
+		Stock[getName(i+1)] = itmp;
+		i++;
+		rs.MoveNext();
+	}
+	rs.Close();
+}
+
+void CMFCKIOSKDlg::restoreTno(void)
 {
 	Tno = 0;
 
-	CRecordset rs;
-	rs.m_pDatabase = &db;
-	CString query = _T("SELECT * FROM t2_trans_2;");
-	rs.Open(CRecordset::snapshot, query);
+	CString querytno = _T("SELECT * FROM ");
+	querytno += (t2name + _T(";")); // "SELECT * FROM yyyy_mm_dd_t2_trans_2;"
 
+	//AfxMessageBox(querytno);
+	rs.Open(CRecordset::snapshot, querytno);
 
 	while (!rs.IsEOF()) {
 		CString tmp;
@@ -3154,13 +3207,14 @@ void CMFCKIOSKDlg::inittno()
 
 		rs.MoveNext();
 	}
+	rs.Close();
 
 	Tno += 1;
 
 	//testcode
-	//CString strtno;
-	//strtno.Format(_T("%d"),Tno);
-	//AfxMessageBox(strtno);
+	CString strtno;
+	strtno.Format(_T("%d"),Tno); // 이번 부팅은 이 tno로 시작할거다
+	AfxMessageBox(strtno);
 }
 
 bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
@@ -3177,9 +3231,11 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 
 
 	// t1_trans_1
-	CString t1query = _T("INSERT INTO t1_trans_1(tno, dt, type, pcode, p, q, pq) VALUES ");
-	CString value1[8];
+	CString t1query = _T("INSERT INTO ");
+	t1query += t1name; // "INSERT INTO yyyy-mm-dd_t1_trans_1"
+	t1query += _T(" (tno, dt, type, pcode, p, q, pq) VALUES ");
 
+	CString qSET[8];
 	int transsum = 0;
 
 	for (int i = 0; i < 8; i++) {
@@ -3187,16 +3243,18 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 			break;
 		}
 
+		CString tmp;
 		transsum += Order[i].mSum;
 		// t1_trans_1
 		// dt, tno, type, pcode, p, q, pq
 		// datetime, int, bool, int, int, int, int
 		int pprice = getPrice(Order[i].mName);
-		value1[i].Format(_T("(%d, \"%s\", %d, %d, %d, %d, %d)"),
+		tmp.Format(_T("(%d, \"%s\", %d, %d, %d, %d, %d)"),
 			Tno, ymdhms, 0, Order[i].mName, pprice, Order[i].mQty, Order[i].mSum
 		);
-		t1query += value1[i];
-
+		t1query += tmp;
+		
+		qSET[i].Format(_T("UPDATE kdb.stock SET q = %d WHERE pcode = \"%d\""), Stock[getName(Order[i].mName)], Order[i].mName);
 		if (i < 7) {
 			if (Order[i + 1].mSum != 0) {
 				t1query += _T(", ");
@@ -3205,25 +3263,31 @@ bool CMFCKIOSKDlg::buy() //DB에 주문 내용 전송
 	}
 	t1query += _T(";");
 
+
 	// t2_trans_2
-	CString t2query = _T("INSERT INTO t2_trans_2(tno, dt, type, sum) VALUES ");
+	CString t2query = _T("INSERT INTO ");
+	t2query += t2name; // "INSERT INTO yyyy-mm-dd_t2_trans_2"
 	CString value2;
-	value2.Format(_T("(%d, \"%s\", %d, %d)"), Tno, ymdhms, 0, transsum);
+	value2.Format(_T(" VALUES (%d, \"%s\", %d, %d)"), Tno, ymdhms, 0, transsum);
 	t2query += value2;
 	t2query += _T(";");
 
 
-	// testcode
+	// stock
+	for (int i = 0; i < 8; i++) {
+		if (qSET[i].IsEmpty() != TRUE) {
+			//AfxMessageBox(qSET[i]);
+			db.ExecuteSQL(qSET[i]);
+		}
+	}
 
+	// testcode
 	// AfxMessageBox(t2query);
 	// AfxMessageBox(t1query);
-
 	db.ExecuteSQL(t2query);
 	db.ExecuteSQL(t1query);
 
-
 	++Tno;
-
 
 	return true; //성공
 }
