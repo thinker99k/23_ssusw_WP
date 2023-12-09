@@ -30,6 +30,4 @@ https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cdatabase-class?view=msvc-17
 https://learn.microsoft.com/ko-kr/cpp/mfc/reference/crecordset-class?view=msvc-170
 
 ##
-혹시나 MFC로 프로젝트를 진행 혹은 유지보수 해야하는데, 데이터베이스 관련한 문의는 아래로...
-
 Contact : kitsune03@outlook.com
