@@ -23,7 +23,7 @@ https://github.com/kitsune03k/Passive_MySQL80
 ##
 **MFC에서 데이터베이스를 다루는데 CDatabase, CRecordset Class 이해 필수**
 
-플랫폼 종속적인것을 싫어하지만, 애초에 MFC부터가 MS 종속적인데 알아두는것이 신상에 좋다.
+플랫폼 종속적인것을 싫어하지만 애초에 MFC부터가 MS 종속적이라, 어쨌든 MFC에서 데이터베이스를 만져야만 하는 상황이라면 이들을 알아두는것이 무조건 신상에 좋다.
 
 https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cdatabase-class?view=msvc-170
 
