@@ -3168,8 +3168,6 @@ void CMFCKIOSKDlg::initDB(void)
 
 void CMFCKIOSKDlg::restoreStock(void)
 {
-	int dbstock[32] = { 0, };
-
 	CString querystock = _T("SELECT * from kdb.stock;");
 	
 	rs.Open(CRecordset::forwardOnly, querystock);
