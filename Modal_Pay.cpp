@@ -55,11 +55,14 @@ BOOL Modal_Pay::OnInitDialog()
 
 void Modal_Pay::OnBnClickedButtonBack()
 {
+	isPayComplete = false; // 결제 실패 
 	OnCancel();
 }
 
 void Modal_Pay::OnBnClickedButtonKakao() //카카오 결제버튼
 {
+	isPayComplete = true; // 결제 성공
+
 	if (m_dlgLoading == nullptr) {
 		m_dlgLoading = new Modal_Loading(this);
 		if (m_dlgLoading != nullptr) {
@@ -79,6 +82,8 @@ void Modal_Pay::OnBnClickedButtonKakao() //카카오 결제버튼
 }
 
 void Modal_Pay::OnBnClickedButtonNaver() { //네이버 결제버튼
+	isPayComplete = true; // 결제 성공
+
 	if (m_dlgLoading == nullptr) {
 		m_dlgLoading = new Modal_Loading(this);
 		if (m_dlgLoading != nullptr) {
@@ -98,6 +103,8 @@ void Modal_Pay::OnBnClickedButtonNaver() { //네이버 결제버튼
 
 void Modal_Pay::OnBnClickedButtonCard()
 {
+	isPayComplete = true; // 결제 성공
+
 	if (m_dlgLoading == nullptr) {
 		m_dlgLoading = new Modal_Loading(this);
 		if (m_dlgLoading != nullptr) {
@@ -118,6 +125,8 @@ void Modal_Pay::OnBnClickedButtonCard()
 
 void Modal_Pay::OnBnClickedButtonPayco()
 {
+	isPayComplete = true; // 결제 성공
+
 	if (m_dlgLoading == nullptr) {
 		m_dlgLoading = new Modal_Loading(this);
 		if (m_dlgLoading != nullptr) {
@@ -150,3 +159,9 @@ LRESULT Modal_Pay::OnPaymentCompleted(WPARAM wParam, LPARAM lParam)
 }
 
 
+
+
+bool Modal_Pay::checkPayComplete()
+{
+	return isPayComplete;
+}

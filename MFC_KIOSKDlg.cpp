@@ -1715,12 +1715,15 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 		m_dlgPay.DestroyWindow();
 	}
 	m_dlgPay.DoModal();
+	if (m_dlgPay.checkPayComplete()) { //결제 성공시
 
-	buy(); //DB에 주문 정보 전송
+		//buy(); //DB에 주문 정보 전송
 
-	
-	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
-	
+
+		initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
+	}
+	else
+		; //결제 실패시
 }
 
 
@@ -1737,10 +1740,14 @@ void CMFCKIOSKDlg::OnClickedButtonTogo()
 	}
 	m_dlgPay.DoModal();
 
-	buy();
+	if (m_dlgPay.checkPayComplete()) { //결제 성공시
 
-	initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
+		//buy();
 
+		initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
+	}
+	else
+		; //결제 실패시 
 }
 
 
