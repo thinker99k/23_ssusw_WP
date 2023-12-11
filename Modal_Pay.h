@@ -40,4 +40,10 @@ public:
 	afx_msg void OnBnClickedButtonNaver();
 	afx_msg void OnBnClickedButtonCard();
 	afx_msg void OnBnClickedButtonPayco();
+
+
+
+
+	bool isPayComplete = true;
+	bool checkPayComplete();
 };
