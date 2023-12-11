@@ -1717,7 +1717,7 @@ void CMFCKIOSKDlg::OnClickedButtonHere()
 	m_dlgPay.DoModal();
 	if (m_dlgPay.checkPayComplete()) { //결제 성공시
 
-		//buy(); //DB에 주문 정보 전송
+		buy(); //DB에 주문 정보 전송
 
 
 		initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
@@ -1742,7 +1742,7 @@ void CMFCKIOSKDlg::OnClickedButtonTogo()
 
 	if (m_dlgPay.checkPayComplete()) { //결제 성공시
 
-		//buy();
+		buy();
 
 		initOrderList_ALL(); //주문리스트 구조체 초기화 & 화면 새로고침
 	}
