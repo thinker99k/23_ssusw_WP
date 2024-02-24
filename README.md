@@ -35,6 +35,3 @@ https://github.com/kitsune03k/Passive_MySQL80
 https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cdatabase-class?view=msvc-170
 
 https://learn.microsoft.com/ko-kr/cpp/mfc/reference/crecordset-class?view=msvc-170
-
-##
-Contact : kitsune03@outlook.com
