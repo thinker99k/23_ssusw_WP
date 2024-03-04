@@ -1,4 +1,4 @@
-# 23_ssusw_wp_kiosk
+# 23_ssusw_WP_kiosk
 
 23학년도 숭실대 소프트웨어학부 윈도우프로그래밍
 
