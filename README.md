@@ -11,7 +11,7 @@
 
 #### [onyoo1739](https://github.com/onyoo1739) : Modal Dialog 제작, 필요 리소스 가공
 
-#### [kitsune03k](https://github.com/kitsune03k) : 데이터베이스 스키마 설계 및 연동, QA 및 프론트엔드 버그 수정
+#### [thinker99k](https://github.com/thinker99k) : 데이터베이스 스키마 설계 및 연동, QA 및 프론트엔드 버그 수정
 
 ## Why ODBC?
 ODBC가 MFC에서 데이터베이스를 연결하는데 가장 간단하다.
