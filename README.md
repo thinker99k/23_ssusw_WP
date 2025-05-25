@@ -4,15 +4,6 @@
 
 3조 : 키오스크 (MFC + MySQL 8.0)
 
-## Members
-#### [zzlldee](https://github.com/zzlldee) : 프론트엔드/백엔드용 API 제작, QA 및 프론트엔드 버그 수정
-
-#### [gyuminkim22](https://github.com/gyuminkim22) : Main Dialog 제작, 필요 리소스 가공
-
-#### [onyoo1739](https://github.com/onyoo1739) : Modal Dialog 제작, 필요 리소스 가공
-
-#### [thinker99k](https://github.com/thinker99k) : 데이터베이스 스키마 설계 및 연동, QA 및 프론트엔드 버그 수정
-
 ## Why ODBC?
 ODBC가 MFC에서 데이터베이스를 연결하는데 가장 간단하다.
 
