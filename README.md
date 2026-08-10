@@ -1,0 +1,29 @@
+# 23_ssusw_WP
+
+23-2 숭실대 소프트 윈도우프로그래밍
+
+3조 : 키오스크 (MFC + MySQL 8.0)
+
+## Why ODBC?
+ODBC가 MFC에서 데이터베이스를 연결하는데 가장 간단하다.
+
+MySQL ODBC Connector(https://dev.mysql.com/downloads/connector/odbc/) 로 DSN kiosk_db에 연결되어야 한다.
+
+시작 -> ODBC 데이터원본(64비트) -> 시스템 DSN 추가
+
+## Make MySQL Service Passive
+
+랩탑에서 작업시 서비스가 시스템의 자원을 항상 소비하고 있기에
+
+https://github.com/thinker99k/Passive_MySQL80
+
+상기 batch로 파일들을 생성하면, 매번 귀찮게 services.msc를 들어갈 필요가 없이 바탕화면에서 바로가기 실행 한번으로 켜고 끌 수 있다.
+
+## VC's Class about Database
+**MFC에서 데이터베이스를 다루는데 CDatabase, CRecordset Class의 이해는 필수**
+
+플랫폼 종속적인것을 싫어하지만 애초에 MFC부터가 MS 종속적이라, MFC에서 데이터베이스를 어쨌든 만져야만 하는 상황이라면 이들을 알아두는것이 무조건 신상에 좋다.
+
+https://learn.microsoft.com/ko-kr/cpp/mfc/reference/cdatabase-class?view=msvc-170
+
+https://learn.microsoft.com/ko-kr/cpp/mfc/reference/crecordset-class?view=msvc-170
